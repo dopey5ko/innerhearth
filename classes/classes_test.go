@@ -1,4 +1,4 @@
-package scheduling
+package classes_test
 
 import (
 	"sort"
@@ -6,9 +6,17 @@ import (
 	"time"
 
 	"appengine/aetest"
+
+	"github.com/decitrig/innerhearth/auth"
+	"github.com/decitrig/innerhearth/staff"
+
+	. "github.com/decitrig/innerhearth/classes"
 )
 
-var week = 7 * 24 * time.Hour
+var (
+	week         = 7 * 24 * time.Hour
+	stafferSmith = &staff.Staff{"1", auth.UserInfo{FirstName: "staffer", LastName: "smith"}}
+)
 
 func sessionsEqual(s1, s2 *Session) bool {
 	switch {
@@ -26,10 +34,10 @@ func sessionsEqual(s1, s2 *Session) bool {
 
 func TestSessions(t *testing.T) {
 	sessions := []*Session{
-		NewSession("foo", unix(1000), unix(10000)),
-		NewSession("bar", unix(1500), unix(10000)),
-		NewSession("baz", unix(2000), unix(10000)),
-		NewSession("bat", unix(100), unix(5000)),
+		NewSession("foo", time.Unix(1000, 0), time.Unix(10000, 0)),
+		NewSession("bar", time.Unix(1500, 0), time.Unix(10000, 0)),
+		NewSession("baz", time.Unix(2000, 0), time.Unix(10000, 0)),
+		NewSession("bat", time.Unix(100, 0), time.Unix(5000, 0)),
 	}
 	c, err := aetest.NewContext(nil)
 	if err != nil {
@@ -50,7 +58,7 @@ func TestSessions(t *testing.T) {
 		}
 	}
 	expected := sessions[:len(sessions)-1]
-	got, err := ActiveSessions(c, unix(6000))
+	got, err := ActiveSessions(c, time.Unix(6000, 0))
 	if err != nil {
 		t.Fatalf("Failed to list active sessions: %s", err)
 	}
@@ -67,8 +75,8 @@ func TestSessions(t *testing.T) {
 }
 
 func TestClasses(t *testing.T) {
-	session1 := &Session{1, "session1", unix(10), unix(100)}
-	session2 := &Session{2, "session2", unix(10), unix(100)}
+	session1 := &Session{1, "session1", time.Unix(10, 0), time.Unix(100, 0)}
+	session2 := &Session{2, "session2", time.Unix(10, 0), time.Unix(100, 0)}
 	classes := []*Class{{
 		Title:   "class1",
 		Weekday: time.Monday,

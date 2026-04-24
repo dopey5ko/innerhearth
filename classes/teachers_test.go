@@ -1,4 +1,4 @@
-package scheduling
+package classes_test
 
 import (
 	"reflect"
@@ -8,6 +8,7 @@ import (
 	"appengine/aetest"
 
 	"github.com/decitrig/innerhearth/auth"
+	. "github.com/decitrig/innerhearth/classes"
 )
 
 func TestTeacher(t *testing.T) {

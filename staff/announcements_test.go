@@ -1,13 +1,22 @@
-package scheduling
+package staff
 
 import (
 	"bytes"
 	"sort"
 	"testing"
+	"time"
 
 	"appengine/aetest"
 	"appengine/datastore"
+
+	"github.com/decitrig/innerhearth/auth"
 )
+
+func unix(seconds int64) time.Time {
+	return time.Unix(seconds, 0)
+}
+
+var stafferSmith = &Staff{"1", auth.UserInfo{FirstName: "staffer", LastName: "smith"}}
 
 func TestAnnouncements(t *testing.T) {
 	c, err := aetest.NewContext(nil)

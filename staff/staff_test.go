@@ -1,4 +1,4 @@
-package scheduling
+package staff
 
 import (
 	"reflect"

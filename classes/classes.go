@@ -1,4 +1,4 @@
-package scheduling
+package classes
 
 import (
 	"time"
@@ -67,6 +67,10 @@ func (s *Session) Classes(c appengine.Context) ([]*Class, error) {
 	return classes, nil
 }
 
+func (s *Session) NewIncompleteKey(c appengine.Context) *datastore.Key {
+	return datastore.NewIncompleteKey(c, "Session", nil)
+}
+
 // SessionsByStartDate sorts sessions by their start date.
 type SessionsByStartDate []*Session
 
@@ -104,6 +108,14 @@ func ClassByID(c appengine.Context, id int64) (*Class, error) {
 	}
 	class.ID = id
 	return class, nil
+}
+
+func (cls *Class) NewIncompleteKey(c appengine.Context) *datastore.Key {
+	return datastore.NewIncompleteKey(c, "Class", nil)
+}
+
+func (cls *Class) Key(c appengine.Context) *datastore.Key {
+	return datastore.NewKey(c, "Class", "", cls.ID, nil)
 }
 
 // Classes wraps a list of Class entities for sorting.

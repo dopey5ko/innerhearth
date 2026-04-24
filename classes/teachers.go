@@ -1,4 +1,4 @@
-package scheduling
+package classes
 
 import (
 	"appengine"
@@ -42,7 +42,7 @@ func teacherKeyFromID(c appengine.Context, id string) *datastore.Key {
 	return datastore.NewKey(c, "Teacher", id, 0, nil)
 }
 
-func (t *Teacher) key(c appengine.Context) *datastore.Key {
+func (t *Teacher) Key(c appengine.Context) *datastore.Key {
 	return teacherKeyFromID(c, t.AccountID)
 }
 
